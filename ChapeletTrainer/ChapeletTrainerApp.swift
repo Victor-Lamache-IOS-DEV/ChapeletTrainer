@@ -12,12 +12,8 @@ struct ChapeletTrainerApp: App {
                 TestSession.self
             ])
             let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-            container = try ModelContainer(for: schema, configurations: [config])
-
-            // Initialiser les 52 cartes du chapelet si premier lancement
-            Task { @MainActor in
-                DeckStore.ensureInitialized(modelContext: container.mainContext)
-            }
+            let newContainer = try ModelContainer(for: schema, configurations: [config])
+            self.container = newContainer
         } catch {
             fatalError("Impossible d'initialiser le conteneur SwiftData : \(error)")
         }
