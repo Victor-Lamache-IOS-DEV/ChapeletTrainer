@@ -1,0 +1,51 @@
+name: ChapeletTrainer
+options:
+  bundleIdPrefix: com.victorlamache
+  deploymentTarget:
+    iOS: "17.0"
+
+targets:
+  ChapeletTrainer:
+    type: application
+    platform: iOS
+    sources:
+      - ChapeletTrainer
+    info:
+      path: ChapeletTrainer/Info.plist
+      properties:
+        CFBundleDisplayName: "Chapelet"
+        CFBundleName: "ChapeletTrainer"
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.victorlamache.chapelettrainerdev
+        DEVELOPMENT_TEAM: A63WD37CXZ
+        CODE_SIGN_STYLE: Manual
+        PROVISIONING_PROFILE_SPECIFIER: "Victor Lamache Dev Profile"
+        CODE_SIGN_IDENTITY: "Apple Development"
+        SWIFT_VERSION: "5.9"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    dependencies:
+      - sdk: SwiftData.framework
+      - sdk: Charts.framework
+
+  ChapeletTrainerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - ChapeletTrainerTests
+    dependencies:
+      - target: ChapeletTrainer
+    info:
+      path: ChapeletTrainerTests/Info.plist
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.victorlamache.chapelettrainerdev.tests
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGN_IDENTITY: ""
+        SWIFT_VERSION: "5.9"
