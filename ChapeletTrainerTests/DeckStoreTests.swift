@@ -1,6 +1,7 @@
 import XCTest
 @testable import ChapeletTrainer
 
+@MainActor
 final class DeckStoreTests: XCTestCase {
 
     func testWeightedPickerReturnsValidCandidate() {

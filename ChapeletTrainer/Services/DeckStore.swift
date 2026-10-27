@@ -1,8 +1,8 @@
 import Foundation
 import SwiftData
 
-@MainActor
 public final class DeckStore {
+    @MainActor
     public static func ensureInitialized(modelContext: ModelContext) {
         let descriptor = FetchDescriptor<CardProgress>()
         let existing = (try? modelContext.fetch(descriptor)) ?? []
@@ -68,6 +68,7 @@ public final class DeckStore {
     }
 
     /// Réinitialisation complète de toutes les statistiques
+    @MainActor
     public static func resetAllStats(modelContext: ModelContext) {
         let descriptor = FetchDescriptor<CardProgress>()
         if let allProgress = try? modelContext.fetch(descriptor) {
