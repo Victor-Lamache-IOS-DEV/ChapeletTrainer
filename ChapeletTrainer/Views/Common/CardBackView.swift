@@ -6,7 +6,6 @@ public struct CardBackView: View {
     public var body: some View {
         GeometryReader { proxy in
             let w = proxy.size.width
-            let h = proxy.size.height
             let cornerRadius = w * 0.08
             let borderWidth = max(2.0, w * 0.035)
 

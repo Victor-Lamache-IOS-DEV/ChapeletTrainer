@@ -96,7 +96,7 @@ public struct IndicesView: View {
                 HStack(spacing: 6) {
                     Image(systemName: filterWithoutMnemonic ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
                     Text("Sans indice uniquement")
-                        .font(.system(.subheadline, weight: .medium, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.medium))
                 }
             }
             .toggleStyle(.button)
@@ -105,7 +105,7 @@ public struct IndicesView: View {
             Spacer()
 
             Text("\(filteredItems.count) / 52")
-                .font(.system(.caption, weight: .semibold, design: .monospaced))
+                .font(.system(.caption, design: .monospaced).weight(.semibold))
                 .foregroundStyle(.secondary)
         }
     }
@@ -143,7 +143,7 @@ private struct IndicesRow: View {
 
             // Numéro
             Text("\(progress.position)")
-                .font(.system(.headline, weight: .bold, design: .monospaced))
+                .font(.system(.headline, design: .monospaced).weight(.bold))
                 .frame(width: 28, alignment: .leading)
                 .foregroundStyle(.secondary)
 

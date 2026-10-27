@@ -89,7 +89,7 @@ public struct TestRootView: View {
     private var settingsSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Mode de test")
-                .font(.system(.subheadline, weight: .semibold, design: .rounded))
+                .font(.system(.subheadline, design: .rounded).weight(.semibold))
                 .foregroundStyle(.secondary)
 
             // Sélecteur de mode
@@ -103,7 +103,7 @@ public struct TestRootView: View {
             // Sélecteur nombre de questions
             VStack(alignment: .leading, spacing: 8) {
                 Text("Nombre de questions")
-                    .font(.system(.subheadline, weight: .semibold, design: .rounded))
+                    .font(.system(.subheadline, design: .rounded).weight(.semibold))
                     .foregroundStyle(.secondary)
 
                 HStack(spacing: 8) {
@@ -113,7 +113,7 @@ public struct TestRootView: View {
                             selectedQuestionCount = opt
                         } label: {
                             Text(opt.title)
-                                .font(.system(.subheadline, weight: .bold, design: .rounded))
+                                .font(.system(.subheadline, design: .rounded).weight(.bold))
                                 .frame(maxWidth: .infinity, minHeight: 38)
                                 .background(selectedQuestionCount == opt ? Color.accentColor : Color(uiColor: .tertiarySystemFill))
                                 .foregroundStyle(selectedQuestionCount == opt ? Color.white : Color.primary)
@@ -131,7 +131,7 @@ public struct TestRootView: View {
                         .foregroundStyle(Color.accentColor)
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Afficher le chronomètre")
-                            .font(.system(.body, weight: .medium, design: .rounded))
+                            .font(.system(.body, design: .rounded).weight(.medium))
                         Text("Purement indicatif, n'influence aucune statistique")
                             .font(.system(.caption2))
                             .foregroundStyle(.secondary)
@@ -151,14 +151,14 @@ public struct TestRootView: View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Cartes à réviser")
-                    .font(.system(.headline, weight: .bold, design: .rounded))
+                    .font(.system(.headline, design: .rounded).weight(.bold))
                 Text("Touchez une carte pour l'inclure ou la retirer")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             Spacer()
             Text("\(selectedCount) / 52")
-                .font(.system(.subheadline, weight: .bold, design: .monospaced))
+                .font(.system(.subheadline, design: .monospaced).weight(.bold))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 4)
                 .background(
@@ -190,7 +190,7 @@ public struct TestRootView: View {
             try? modelContext.save()
         } label: {
             Text(label)
-                .font(.system(.caption, weight: .semibold, design: .rounded))
+                .font(.system(.caption, design: .rounded).weight(.semibold))
                 .padding(.horizontal, 12)
                 .padding(.vertical, 7)
                 .background(Color(uiColor: .tertiarySystemFill))
@@ -235,7 +235,7 @@ public struct TestRootView: View {
             HStack(spacing: 8) {
                 Image(systemName: "play.fill")
                 Text("Lancer l'entraînement")
-                    .font(.system(.headline, weight: .bold, design: .rounded))
+                    .font(.system(.headline, design: .rounded).weight(.bold))
             }
             .frame(maxWidth: .infinity, minHeight: 54)
             .background(selectedCount > 0 ? Color.accentColor : Color.gray.opacity(0.4))

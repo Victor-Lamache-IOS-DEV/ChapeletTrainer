@@ -16,7 +16,7 @@ public struct AboutSheet: View {
                             .foregroundStyle(Color.accentColor)
 
                         Text("Chapelet Trainer")
-                            .font(.system(.title, weight: .heavy, design: .rounded))
+                            .font(.system(.title, design: .rounded).weight(.heavy))
 
                         Text("Version 1.0 (Build 1)")
                             .font(.caption)
@@ -27,7 +27,7 @@ public struct AboutSheet: View {
                     // Hommage Mnemonica
                     VStack(alignment: .leading, spacing: 10) {
                         Label("Le Chapelet Mnemonica", systemImage: "sparkles")
-                            .font(.system(.headline, weight: .bold, design: .rounded))
+                            .font(.system(.headline, design: .rounded).weight(.bold))
                             .foregroundStyle(.primary)
 
                         Text("Conçu par le maître espagnol Juan Tamariz, le chapelet Mnemonica est l'un des ordres mémorisés les plus renommés et puissants de la cartomagie contemporaine.")
@@ -45,7 +45,7 @@ public struct AboutSheet: View {
                     // Licence des cartes
                     VStack(alignment: .leading, spacing: 10) {
                         Label("Graphismes des Cartes", systemImage: "photo.stack")
-                            .font(.system(.headline, weight: .bold, design: .rounded))
+                            .font(.system(.headline, design: .rounded).weight(.bold))
                             .foregroundStyle(.primary)
 
                         Text("Les images des 52 cartes proviennent du projet open-source Vector-Playing-Cards par notpeter, basé sur les illustrations vectorielles originales créées par Byron Knoll.")
@@ -54,7 +54,7 @@ public struct AboutSheet: View {
                             .lineSpacing(3)
 
                         Text("Licence : Domaine Public / WTFPL (Do What The Fuck You Want To Public License).")
-                            .font(.system(.caption, weight: .semibold, design: .monospaced))
+                            .font(.system(.caption, design: .monospaced).weight(.semibold))
                             .foregroundStyle(.secondary)
                             .padding(.top, 4)
                     }
@@ -68,7 +68,7 @@ public struct AboutSheet: View {
                     // Philosophie
                     VStack(alignment: .leading, spacing: 10) {
                         Label("Philosophie & Confidentialité", systemImage: "lock.shield.fill")
-                            .font(.system(.headline, weight: .bold, design: .rounded))
+                            .font(.system(.headline, design: .rounded).weight(.bold))
                             .foregroundStyle(.primary)
 
                         Text("Cette application fonctionne à 100% hors ligne, sans compte, sans publicité, et sans aucun traceur. Toutes vos données sont enregistrées en local sur votre appareil.")

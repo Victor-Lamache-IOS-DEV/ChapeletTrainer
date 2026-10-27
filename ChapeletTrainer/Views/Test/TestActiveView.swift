@@ -105,7 +105,7 @@ public struct TestActiveView: View {
 
                 ToolbarItem(placement: .principal) {
                     Text(progressTitle)
-                        .font(.system(.subheadline, weight: .bold, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.bold))
                 }
 
                 if showTimer {
@@ -113,7 +113,7 @@ public struct TestActiveView: View {
                         HStack(spacing: 4) {
                             Image(systemName: "timer")
                             Text(formattedTime(elapsedSeconds))
-                                .font(.system(.caption, weight: .bold, design: .monospaced))
+                                .font(.system(.caption, design: .monospaced).weight(.bold))
                         }
                         .foregroundStyle(.secondary)
                     }
@@ -142,7 +142,7 @@ public struct TestActiveView: View {
             HStack(spacing: 6) {
                 Circle().fill(Color.green).frame(width: 8, height: 8)
                 Text("\(sessionResults.filter { $0.isCorrect }.count)")
-                    .font(.system(.subheadline, weight: .bold, design: .monospaced))
+                    .font(.system(.subheadline, design: .monospaced).weight(.bold))
                     .foregroundStyle(.green)
             }
 
@@ -151,7 +151,7 @@ public struct TestActiveView: View {
             HStack(spacing: 6) {
                 Circle().fill(Color.red).frame(width: 8, height: 8)
                 Text("\(sessionResults.filter { !$0.isCorrect }.count)")
-                    .font(.system(.subheadline, weight: .bold, design: .monospaced))
+                    .font(.system(.subheadline, design: .monospaced).weight(.bold))
                     .foregroundStyle(.red)
             }
         }
@@ -272,7 +272,7 @@ public struct TestActiveView: View {
         VStack(spacing: 14) {
             VStack(spacing: 4) {
                 Text("Quelle carte est à la position :")
-                    .font(.system(.subheadline, weight: .medium, design: .rounded))
+                    .font(.system(.subheadline, design: .rounded).weight(.medium))
                     .foregroundStyle(.secondary)
 
                 Text("#\(currentPosition)")
@@ -412,12 +412,12 @@ public struct TestActiveView: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(lastAnswerCorrect ? "Exact !" : "Erreur")
-                        .font(.system(.headline, weight: .bold, design: .rounded))
+                        .font(.system(.headline, design: .rounded).weight(.bold))
                         .foregroundStyle(lastAnswerCorrect ? Color.green : Color.red)
 
                     if !lastAnswerCorrect, let card = feedbackCorrectCard {
                         Text("La bonne réponse : \(card.displayName) (#\(feedbackCorrectPosition))")
-                            .font(.system(.subheadline, weight: .semibold, design: .rounded))
+                            .font(.system(.subheadline, design: .rounded).weight(.semibold))
                             .foregroundStyle(.primary)
                     }
                 }
@@ -427,7 +427,7 @@ public struct TestActiveView: View {
                     advanceToNextQuestion()
                 } label: {
                     Text("Continuer")
-                        .font(.system(.subheadline, weight: .bold, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.bold))
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .background(lastAnswerCorrect ? Color.green : Color.red)
@@ -441,7 +441,7 @@ public struct TestActiveView: View {
                     Image(systemName: "lightbulb.fill")
                         .foregroundStyle(.yellow)
                     Text("Indice : \(feedbackMnemonic)")
-                        .font(.system(.footnote, weight: .medium, design: .rounded))
+                        .font(.system(.footnote, design: .rounded).weight(.medium))
                         .foregroundStyle(.secondary)
                     Spacer()
                 }

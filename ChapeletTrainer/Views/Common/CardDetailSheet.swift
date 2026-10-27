@@ -22,11 +22,11 @@ public struct CardDetailSheet: View {
 
                             VStack(spacing: 4) {
                                 Text(card.displayName)
-                                    .font(.system(.title2, weight: .bold, design: .rounded))
+                                    .font(.system(.title2, design: .rounded).weight(.bold))
                                     .foregroundStyle(.primary)
 
                                 Text("Position n°\(progress.position) dans le chapelet")
-                                    .font(.system(.subheadline, weight: .medium, design: .rounded))
+                                    .font(.system(.subheadline, design: .rounded).weight(.medium))
                                     .foregroundStyle(.secondary)
                             }
                         }
@@ -35,7 +35,7 @@ public struct CardDetailSheet: View {
                     // Section Indice / Phrase mnémotechnique
                     VStack(alignment: .leading, spacing: 8) {
                         Label("Indice mnémotechnique", systemImage: "lightbulb.fill")
-                            .font(.system(.subheadline, weight: .semibold, design: .rounded))
+                            .font(.system(.subheadline, design: .rounded).weight(.semibold))
                             .foregroundStyle(.secondary)
 
                         TextField("Tapez une phrase ou un mot-repère...", text: $progress.mnemonic, axis: .vertical)
@@ -55,7 +55,7 @@ public struct CardDetailSheet: View {
                     // Section Statistiques
                     VStack(alignment: .leading, spacing: 14) {
                         Label("Statistiques d'apprentissage", systemImage: "chart.bar.xaxis")
-                            .font(.system(.subheadline, weight: .semibold, design: .rounded))
+                            .font(.system(.subheadline, design: .rounded).weight(.semibold))
                             .foregroundStyle(.secondary)
 
                         VStack(spacing: 12) {
@@ -75,7 +75,7 @@ public struct CardDetailSheet: View {
                                     .foregroundStyle(.secondary)
                                 Spacer()
                                 Text(progress.recentResults.isEmpty ? "—" : String(format: "%.0f %%", progress.recentSuccessRate * 100))
-                                    .font(.system(.body, weight: .bold, design: .rounded))
+                                    .font(.system(.body, design: .rounded).weight(.bold))
                                     .foregroundStyle(rateColor(progress.recentSuccessRate))
                             }
 
@@ -113,7 +113,7 @@ public struct CardDetailSheet: View {
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                     Text("\(progress.correctCount)")
-                                        .font(.system(.title3, weight: .bold, design: .rounded))
+                                        .font(.system(.title3, design: .rounded).weight(.bold))
                                         .foregroundStyle(.green)
                                 }
                                 Spacer()
@@ -122,7 +122,7 @@ public struct CardDetailSheet: View {
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                     Text("\(progress.wrongCount)")
-                                        .font(.system(.title3, weight: .bold, design: .rounded))
+                                        .font(.system(.title3, design: .rounded).weight(.bold))
                                         .foregroundStyle(.red)
                                 }
                                 Spacer()
@@ -131,7 +131,7 @@ public struct CardDetailSheet: View {
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                     Text("\(progress.totalAttempts)")
-                                        .font(.system(.title3, weight: .bold, design: .rounded))
+                                        .font(.system(.title3, design: .rounded).weight(.bold))
                                 }
                             }
 

@@ -96,7 +96,7 @@ public struct TestResultView: View {
                         .foregroundStyle(.primary)
 
                     Text("\(correctCount)/\(totalCount)")
-                        .font(.system(.caption, weight: .bold, design: .monospaced))
+                        .font(.system(.caption, design: .monospaced).weight(.bold))
                         .foregroundStyle(.secondary)
                 }
             }
@@ -107,7 +107,7 @@ public struct TestResultView: View {
                     Image(systemName: "timer")
                         .foregroundStyle(.secondary)
                     Text(formattedDuration(duration))
-                        .font(.system(.footnote, weight: .semibold, design: .monospaced))
+                        .font(.system(.footnote, design: .monospaced).weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
 
@@ -115,7 +115,7 @@ public struct TestResultView: View {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.red)
                     Text("\(errorResults.count) erreur\(errorResults.count > 1 ? "s" : "")")
-                        .font(.system(.footnote, weight: .semibold, design: .rounded))
+                        .font(.system(.footnote, design: .rounded).weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
             }
@@ -132,7 +132,7 @@ public struct TestResultView: View {
     private var errorsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Erreurs à revoir (\(errorPositions.count) carte\(errorPositions.count > 1 ? "s" : ""))")
-                .font(.system(.headline, weight: .bold, design: .rounded))
+                .font(.system(.headline, design: .rounded).weight(.bold))
                 .foregroundStyle(.primary)
 
             VStack(spacing: 10) {
@@ -144,10 +144,10 @@ public struct TestResultView: View {
                         VStack(alignment: .leading, spacing: 3) {
                             HStack {
                                 Text(err.card.displayName)
-                                    .font(.system(.subheadline, weight: .bold, design: .rounded))
+                                    .font(.system(.subheadline, design: .rounded).weight(.bold))
                                 Spacer()
                                 Text("Pos. #\(err.position)")
-                                    .font(.system(.caption, weight: .bold, design: .monospaced))
+                                    .font(.system(.caption, design: .monospaced).weight(.bold))
                                     .foregroundStyle(Color.accentColor)
                             }
 
@@ -184,7 +184,7 @@ public struct TestResultView: View {
                 .foregroundStyle(.yellow)
 
             Text("Sans faute !")
-                .font(.system(.title3, weight: .heavy, design: .rounded))
+                .font(.system(.title3, design: .rounded).weight(.heavy))
 
             Text("Vous avez répondu correctement à toutes les cartes sélectionnées.")
                 .font(.subheadline)
@@ -211,7 +211,7 @@ public struct TestResultView: View {
                         Image(systemName: "arrow.counterclockwise")
                         Text("Refaire avec les erreurs (\(errorPositions.count))")
                     }
-                    .font(.system(.headline, weight: .bold, design: .rounded))
+                    .font(.system(.headline, design: .rounded).weight(.bold))
                     .frame(maxWidth: .infinity, minHeight: 52)
                     .background(Color.accentColor)
                     .foregroundStyle(.white)
@@ -223,7 +223,7 @@ public struct TestResultView: View {
                 onFinish()
             } label: {
                 Text("Terminer le test")
-                    .font(.system(.headline, weight: .semibold, design: .rounded))
+                    .font(.system(.headline, design: .rounded).weight(.semibold))
                     .frame(maxWidth: .infinity, minHeight: 52)
                     .background(Color(uiColor: .secondarySystemFill))
                     .foregroundStyle(.primary)

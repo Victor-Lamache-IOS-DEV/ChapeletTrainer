@@ -80,7 +80,7 @@ public struct ChapeletView: View {
                         HStack(spacing: 4) {
                             Image(systemName: revisionMode.iconName)
                             Text(revisionButtonLabel)
-                                .font(.system(.subheadline, weight: .semibold, design: .rounded))
+                                .font(.system(.subheadline, design: .rounded).weight(.semibold))
                         }
                         .foregroundStyle(Color.white)
                         .padding(.horizontal, 10)

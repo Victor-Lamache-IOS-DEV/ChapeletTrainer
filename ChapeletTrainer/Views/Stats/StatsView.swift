@@ -152,7 +152,7 @@ public struct StatsView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Label("Heatmap du Chapelet", systemImage: "square.grid.3x3.fill")
-                    .font(.system(.headline, weight: .bold, design: .rounded))
+                    .font(.system(.headline, design: .rounded).weight(.bold))
                 Spacer()
                 Text("Dans l'ordre 1 à 52")
                     .font(.caption2)
@@ -257,7 +257,7 @@ public struct StatsView: View {
     private var topDifficultSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Label("Top 10 des cartes difficiles", systemImage: "exclamationmark.triangle.fill")
-                .font(.system(.headline, weight: .bold, design: .rounded))
+                .font(.system(.headline, design: .rounded).weight(.bold))
                 .foregroundStyle(.primary)
 
             if topDifficultCards.isEmpty {
@@ -279,10 +279,10 @@ public struct StatsView: View {
                                     VStack(alignment: .leading, spacing: 2) {
                                         HStack {
                                             Text(card.displayName)
-                                                .font(.system(.subheadline, weight: .bold, design: .rounded))
+                                                .font(.system(.subheadline, design: .rounded).weight(.bold))
                                             Spacer()
                                             Text("Pos. #\(progress.position)")
-                                                .font(.system(.caption, weight: .bold, design: .monospaced))
+                                                .font(.system(.caption, design: .monospaced).weight(.bold))
                                                 .foregroundStyle(Color.accentColor)
                                         }
 
@@ -325,7 +325,7 @@ public struct StatsView: View {
     private var progressionChartSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             Label("Progression par session", systemImage: "chart.xyaxis.line")
-                .font(.system(.headline, weight: .bold, design: .rounded))
+                .font(.system(.headline, design: .rounded).weight(.bold))
 
             if testSessions.isEmpty {
                 VStack(spacing: 8) {
@@ -409,7 +409,7 @@ public struct StatsView: View {
                 Image(systemName: "trash")
                 Text("Réinitialiser les statistiques")
             }
-            .font(.system(.subheadline, weight: .semibold, design: .rounded))
+            .font(.system(.subheadline, design: .rounded).weight(.semibold))
             .frame(maxWidth: .infinity, minHeight: 46)
             .background(Color.red.opacity(0.12))
             .foregroundStyle(.red)
