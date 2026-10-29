@@ -30,6 +30,10 @@ public struct TestActiveView: View {
     // Saisie utilisateur (Carte -> Position)
     @State private var typedNumber: String = ""
 
+    // Sélection de carte (Position -> Carte)
+    @State private var cardPickerMode: CardPickerMode = .columns
+    @State private var selectedRankForGuess: Rank? = nil
+
     // État de feedback immédiat
     @State private var showingFeedback: Bool = false
     @State private var lastAnswerCorrect: Bool = false
@@ -256,8 +260,23 @@ public struct TestActiveView: View {
     }
 
     private func appendDigit(_ digit: String) {
-        if typedNumber.count < 2 {
-            typedNumber.append(digit)
+        guard !showingFeedback else { return }
+        guard typedNumber.count < 2 else { return }
+
+        typedNumber.append(digit)
+
+        if let guess = Int(typedNumber) {
+            if guess == currentPosition {
+                // Dès que l'utilisateur tape le bon numéro, validation automatique immédiate !
+                validatePositionGuess()
+            } else if typedNumber.count == 2 {
+                // Dès que 2 chiffres sont saisis (maximum possible pour 1..52) -> validation automatique
+                validatePositionGuess()
+            } else if guess >= 6 {
+                // Dans un jeu de 52 cartes, aucun numéro valide ne commence par 6, 7, 8 ou 9.
+                // Donc s'il tape 6..9, c'est obligatoirement sa réponse finale à 1 chiffre.
+                validatePositionGuess()
+            }
         }
     }
 
@@ -268,54 +287,163 @@ public struct TestActiveView: View {
     }
 
     // MARK: - Mode Position -> Carte
+    private let cardPickerSuits: [(suit: Suit, label: String)] = [
+        (.spades, "Pique ♠"),
+        (.hearts, "Cœur ♥"),
+        (.clubs, "Trèfle ♣"),
+        (.diamonds, "Carreau ♦")
+    ]
+
     private var positionToCardView: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 12) {
             VStack(spacing: 4) {
                 Text("Quelle carte est à la position :")
                     .font(.system(.subheadline, design: .rounded).weight(.medium))
                     .foregroundStyle(.secondary)
 
                 Text("#\(currentPosition)")
-                    .font(.system(size: 44, weight: .heavy, design: .rounded))
+                    .font(.system(size: 40, weight: .heavy, design: .rounded))
                     .foregroundStyle(Color.accentColor)
             }
 
-            // Grille des 52 cartes classées par couleur et par valeur
-            VStack(alignment: .leading, spacing: 8) {
-                let suits: [(suit: Suit, label: String)] = [
-                    (.spades, "Pique ♠"),
-                    (.hearts, "Cœur ♥"),
-                    (.diamonds, "Carreau ♦"),
-                    (.clubs, "Trèfle ♣")
-                ]
+            // Sélecteur de mode de présentation
+            Picker("Présentation", selection: $cardPickerMode) {
+                Text("4 Colonnes (52 directes)").tag(CardPickerMode.columns)
+                Text("Clavier 2 temps").tag(CardPickerMode.keypad)
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 16)
 
-                ForEach(suits, id: \.suit) { s in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(s.label)
-                            .font(.system(size: 11, weight: .bold, design: .rounded))
-                            .foregroundStyle(s.suit.isRed ? Color.red : Color.primary)
-                            .padding(.leading, 12)
+            if cardPickerMode == .columns {
+                fourColumnsCardPicker
+                    .padding(.horizontal, 8)
+            } else {
+                twoStepKeypadView
+            }
+        }
+    }
 
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 6) {
-                                ForEach(Rank.allCases, id: \.self) { rank in
-                                    let card = Card(rank: rank, suit: s.suit)
-                                    Button {
-                                        selectCardGuess(card)
-                                    } label: {
-                                        CardView(card: card, cornerRadius: 4)
-                                            .frame(width: 44, height: 62)
-                                    }
-                                    .buttonStyle(.plain)
-                                    .disabled(showingFeedback)
-                                }
-                            }
-                            .padding(.horizontal, 12)
-                        }
+    // Présentation 4 colonnes par famille : 52 cartes directes sans défilement horizontal
+    private var fourColumnsCardPicker: some View {
+        HStack(alignment: .top, spacing: 6) {
+            ForEach(cardPickerSuits, id: \.suit) { s in
+                VStack(spacing: 3) {
+                    Text(s.label)
+                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                        .foregroundStyle(s.suit.isRed ? Color.red : Color.primary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .fill(s.suit.isRed ? Color.red.opacity(0.12) : Color.primary.opacity(0.08))
+                        )
+
+                    ForEach(Rank.allCases, id: \.self) { rank in
+                        let card = Card(rank: rank, suit: s.suit)
+                        cardPickerCell(card: card, suit: s.suit)
                     }
                 }
             }
         }
+    }
+
+    private func cardPickerCell(card: Card, suit: Suit) -> some View {
+        Button {
+            Haptics.shared.selection()
+            selectCardGuess(card)
+        } label: {
+            HStack(spacing: 3) {
+                CardView(card: card, cornerRadius: 3)
+                    .frame(width: 20, height: 28)
+
+                Text(card.rank.code)
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .foregroundStyle(suit.isRed ? Color.red : Color.primary)
+
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 4)
+            .padding(.vertical, 2)
+            .frame(maxWidth: .infinity, minHeight: 32)
+            .background(
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(Color(uiColor: .secondarySystemBackground))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .stroke(suit.isRed ? Color.red.opacity(0.18) : Color.primary.opacity(0.12), lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+        .disabled(showingFeedback)
+    }
+
+    // Clavier rapide en 2 étapes (Optionnel pour de très grands boutons)
+    private var twoStepKeypadView: some View {
+        VStack(spacing: 14) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(selectedRankForGuess == nil ? "1. Choisissez la valeur :" : "Valeur : \(selectedRankForGuess?.nameFR ?? "")")
+                    .font(.system(.caption, design: .rounded).weight(.semibold))
+                    .foregroundStyle(.secondary)
+
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 5), spacing: 6) {
+                    ForEach(Rank.allCases, id: \.self) { rank in
+                        Button {
+                            Haptics.shared.selection()
+                            selectedRankForGuess = rank
+                        } label: {
+                            Text(rank.code)
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
+                                .frame(maxWidth: .infinity, minHeight: 44)
+                                .background(selectedRankForGuess == rank ? Color.accentColor : Color(uiColor: .secondarySystemBackground))
+                                .foregroundStyle(selectedRankForGuess == rank ? Color.white : Color.primary)
+                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(showingFeedback)
+                    }
+                }
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text("2. Choisissez la couleur :")
+                    .font(.system(.caption, design: .rounded).weight(.semibold))
+                    .foregroundStyle(.secondary)
+
+                HStack(spacing: 8) {
+                    ForEach(cardPickerSuits, id: \.suit) { s in
+                        Button {
+                            guard let rank = selectedRankForGuess else {
+                                Haptics.shared.warning()
+                                return
+                            }
+                            let card = Card(rank: rank, suit: s.suit)
+                            selectCardGuess(card)
+                            selectedRankForGuess = nil
+                        } label: {
+                            VStack(spacing: 2) {
+                                Text(s.suit.symbol)
+                                    .font(.system(size: 26, weight: .bold))
+                                Text(s.suit.nameFR)
+                                    .font(.system(size: 12, weight: .semibold, design: .rounded))
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 54)
+                            .background(Color(uiColor: .secondarySystemBackground))
+                            .foregroundStyle(s.suit.isRed ? Color.red : Color.primary)
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                    .stroke(s.suit.isRed ? Color.red.opacity(0.2) : Color.primary.opacity(0.12), lineWidth: 1)
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(showingFeedback || selectedRankForGuess == nil)
+                        .opacity(selectedRankForGuess == nil ? 0.45 : 1.0)
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 12)
     }
 
     private func selectCardGuess(_ chosenCard: Card) {
@@ -365,6 +493,7 @@ public struct TestActiveView: View {
     private func advanceToNextQuestion() {
         showingFeedback = false
         typedNumber = ""
+        selectedRankForGuess = nil
         currentQuestionIndex += 1
 
         if let total = totalQuestions, currentQuestionIndex >= total {
@@ -465,3 +594,11 @@ public struct TestActiveView: View {
         return String(format: "%02d:%02d", m, s)
     }
 }
+
+private enum CardPickerMode: String, CaseIterable, Identifiable {
+    case columns = "Colonnes"
+    case keypad = "Clavier"
+
+    var id: String { rawValue }
+}
+

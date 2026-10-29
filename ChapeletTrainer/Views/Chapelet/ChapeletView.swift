@@ -49,11 +49,11 @@ public struct ChapeletView: View {
                 Color.black.ignoresSafeArea()
 
                 ScrollView {
+                    let map = progressMap
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(1...52, id: \.self) { position in
                             if let card = MnemonicaDeck.card(at: position) {
-                                let progress = progressForPosition(position)
-                                cardCell(position: position, card: card, progress: progress)
+                                cardCell(position: position, card: card, progress: map[position])
                             }
                         }
                     }
@@ -108,8 +108,8 @@ public struct ChapeletView: View {
         }
     }
 
-    private func progressForPosition(_ pos: Int) -> CardProgress? {
-        progressItems.first { $0.position == pos }
+    private var progressMap: [Int: CardProgress] {
+        Dictionary(uniqueKeysWithValues: progressItems.map { ($0.position, $0) })
     }
 
     @ViewBuilder

@@ -4,17 +4,25 @@ public struct CardView: View {
     public let card: Card
     public var cornerRadius: CGFloat = 8
 
+    // Cache statique des 52 noms d'assets pour éviter tout appel disque ou catalogue répété dans body
+    private static let knownAssets: Set<String> = Set(MnemonicaDeck.cards.map(\.assetName))
+
     public init(card: Card, cornerRadius: CGFloat = 8) {
         self.card = card
         self.cornerRadius = cornerRadius
     }
 
     private var hasAssetImage: Bool {
-        UIImage(named: card.assetName) != nil
+        Self.knownAssets.contains(card.assetName)
     }
 
     public var body: some View {
-        Group {
+        ZStack {
+            // Fond blanc avec ombre optimisée (rendu GPU matériel direct sur CGPath continu)
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.18), radius: 2.5, x: 0, y: 1.5)
+
             if hasAssetImage {
                 Image(card.assetName)
                     .resizable()
@@ -25,7 +33,6 @@ public struct CardView: View {
             }
         }
         .aspectRatio(2.5 / 3.5, contentMode: .fit)
-        .shadow(color: Color.black.opacity(0.25), radius: 3, x: 0, y: 1.5)
     }
 
     /// Plan B : Rendu SwiftUI natif vectoriel élégant en cas d'absence d'image
