@@ -17,6 +17,7 @@ targets:
         CFBundleName: "ChapeletTrainer"
         UILaunchScreen: {}
         UIRequiresFullScreen: true
+        ITSAppUsesNonExemptEncryption: false
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
     settings:
