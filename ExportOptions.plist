@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>method</key>
-    <string>development</string>
+    <string>app-store</string>
     <key>teamID</key>
     <string>A63WD37CXZ</string>
     <key>signingStyle</key>
@@ -11,7 +11,7 @@
     <key>provisioningProfiles</key>
     <dict>
         <key>com.victorlamache.chapelettrainerdev</key>
-        <string>Victor Lamache Dev Profile</string>
+        <string>ChapeletTrainer AppStore</string>
     </dict>
     <key>compileBitcode</key>
     <false/>
