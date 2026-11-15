@@ -53,3 +53,19 @@ targets:
         CODE_SIGNING_REQUIRED: NO
         CODE_SIGN_IDENTITY: ""
         SWIFT_VERSION: "5.9"
+
+schemes:
+  ChapeletTrainer:
+    build:
+      targets:
+        ChapeletTrainer: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
