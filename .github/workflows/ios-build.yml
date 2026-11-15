@@ -18,6 +18,24 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
+      - name: Patch scheme archive config to Release
+        run: |
+          SCHEME="ChapeletTrainer.xcodeproj/xcshareddata/xcschemes/ChapeletTrainer.xcscheme"
+          python3 - "$SCHEME" << 'PY'
+          import re, sys
+          p = sys.argv[1]
+          s = open(p).read()
+          s = re.sub(r'(<ArchiveAction[^>]*?)buildConfiguration = "[^"]*"([^>]*>)', r'\1buildConfiguration = "Release"\2', s)
+          open(p, 'w').write(s)
+          print("patched")
+          PY
+
+      - name: Run unit tests
+        run: |
+          SIM_NAME=$(xcrun simctl list devices available | grep "iPhone" | head -n 1 | sed -E 's/^[[:space:]]*([^(]+)[[:space:]]*\(.*/\1/' | xargs)
+          echo "Testing on simulator: $SIM_NAME"
+          xcodebuild test -scheme ChapeletTrainer -destination "platform=iOS Simulator,name=$SIM_NAME" CODE_SIGNING_ALLOWED=NO clean test
+
       - name: Decode certificate
         env:
           CERTIFICATE_BASE64: ${{ secrets.APPSTORE_BUILD_CERTIFICATE_BASE64 }}
